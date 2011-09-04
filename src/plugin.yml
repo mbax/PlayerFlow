@@ -1,0 +1,13 @@
+name: PlayerFlow
+main: net.phozop.playerflow.PlayerFlowPlugin
+version: 1.1
+website: http://forums.joe.to
+author: mbaxter
+description: Replacement for pesky player joined/quit
+permissions:
+  playerflow.receivesummary:
+    description: Receive join and quit summaries
+  playerflow.receiveperuser:
+    description: Receive the usual message every time a player joins or quits
+  playerflow.silent:
+    description: Does not show up in any alerts or statistics
