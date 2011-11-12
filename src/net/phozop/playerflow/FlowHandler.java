@@ -21,16 +21,16 @@ public class FlowHandler {
                 return;
             }
             final Player[] playerList = this.flow.getServer().getOnlinePlayers();
-            final StringBuilder recentActivityBuilder= new StringBuilder();
+            final StringBuilder recentActivityBuilder = new StringBuilder();
             recentActivityBuilder.append(ChatColor.YELLOW + "In " + this.flow.getHandler().getDelay() + ", " + joins + " player");
-            if(joins!=1){
+            if (joins != 1) {
                 recentActivityBuilder.append("s");
             }
             recentActivityBuilder.append(" joined and " + quits + " quit.");
             final String recentActivity = recentActivityBuilder.toString();
-            final StringBuilder currentlyOnlineBuilder=new StringBuilder();
+            final StringBuilder currentlyOnlineBuilder = new StringBuilder();
             currentlyOnlineBuilder.append(ChatColor.YELLOW + String.valueOf(playerList.length) + " player");
-            if(playerList.length!=1){
+            if (playerList.length != 1) {
                 currentlyOnlineBuilder.append("s");
             }
             currentlyOnlineBuilder.append(" currently online");
@@ -90,26 +90,6 @@ public class FlowHandler {
         this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, new Announcement(this.flow), tickdelay, tickdelay);
     }
 
-    public boolean boring() {
-        return this.announceBoring;
-    }
-
-    public String getDelay() {
-        return this.delay;
-    }
-
-    public int getJoinCount() {
-        return this.joinCount;
-    }
-
-    public int getQuitCount() {
-        return this.quitCount;
-    }
-
-    public boolean logSummaries() {
-        return this.logSummaries;
-    }
-
     public void modJoinCount(int modification) {
         this.joinCount += modification;
     }
@@ -118,7 +98,27 @@ public class FlowHandler {
         this.quitCount += modification;
     }
 
-    public void resetCounts() {
+    private boolean boring() {
+        return this.announceBoring;
+    }
+
+    private String getDelay() {
+        return this.delay;
+    }
+
+    private int getJoinCount() {
+        return this.joinCount;
+    }
+
+    private int getQuitCount() {
+        return this.quitCount;
+    }
+
+    private boolean logSummaries() {
+        return this.logSummaries;
+    }
+
+    private void resetCounts() {
         this.joinCount = 0;
         this.quitCount = 0;
     }

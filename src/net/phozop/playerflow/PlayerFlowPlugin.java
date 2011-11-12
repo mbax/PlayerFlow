@@ -3,11 +3,11 @@ package net.phozop.playerflow;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 
 public class PlayerFlowPlugin extends JavaPlugin {
 
@@ -37,11 +37,12 @@ public class PlayerFlowPlugin extends JavaPlugin {
 
         this.selfDescription = this.getDescription();
 
-        final Configuration config = this.getConfiguration();
+        final FileConfiguration config = this.getConfig();
+        config.options().copyDefaults(true);
 
         this.handler = new FlowHandler(this, config.getInt("summaryDelaySeconds", 60), config.getBoolean("announceNoChange", false), config.getBoolean("logSummaries", false));
 
-        config.save();
+        this.saveConfig();
 
         this.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, this.listener, Priority.Highest, this);
         this.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, this.listener, Priority.Highest, this);
