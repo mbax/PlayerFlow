@@ -1,4 +1,4 @@
-package net.phozop.playerflow;
+package org.kitteh.playerflow;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

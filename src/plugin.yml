@@ -1,9 +1,9 @@
 name: PlayerFlow
-main: net.phozop.playerflow.PlayerFlowPlugin
-version: 1.3
-website: http://forums.joe.to
+main: org.kitteh.playerflow.PlayerFlowPlugin
+version: 2.0
+website: http://kitteh.org
 author: mbaxter
-description: Replacement for pesky player joined/quit
+description: Replacement for pesky player joined/quit messages
 permissions:
   playerflow.receivesummary:
     description: Receive join and quit summaries
