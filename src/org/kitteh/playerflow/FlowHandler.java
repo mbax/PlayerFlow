@@ -2,6 +2,7 @@ package org.kitteh.playerflow;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.monstercraft.irc.IRC;
 
 public class FlowHandler {
 
@@ -49,12 +50,44 @@ public class FlowHandler {
         }
     }
 
+    private class IRCAnnouncement implements Runnable {
+
+        private int joins = 0;
+        private int quits = 0;
+
+        public void join() {
+            this.joins++;
+        }
+
+        public void quit() {
+            this.quits++;
+        }
+
+        @Override
+        public void run() {
+            final String message = FlowHandler.this.flow.getMessage().replace("%j", Integer.toString(this.joins)).replace("%q", Integer.toString(this.quits));
+            if (!FlowHandler.this.flow.getServer().getPluginManager().isPluginEnabled("MonsterIRC")) {
+                return;
+            }
+            try {
+                for (final String channel : FlowHandler.this.flow.getChannels()) {
+                    IRC.getHandleManager().getIRCHandler().sendMessage(message, "#" + channel);
+                }
+            } catch (final Exception e) {
+            }
+            this.joins = 0;
+            this.quits = 0;
+        }
+    }
+
     private final PlayerFlowPlugin flow;
     private int joinCount = 0, quitCount = 0;
     private final String delay;
 
     private final boolean announceBoring;
     private final boolean logSummaries;
+
+    private final IRCAnnouncement ircAnnouncement = new IRCAnnouncement();
 
     public FlowHandler(PlayerFlowPlugin flow, int delay, boolean announceBoring, boolean logSummaries) {
         this.flow = flow;
@@ -88,14 +121,17 @@ public class FlowHandler {
         this.delay = delayBuilder.toString();
         final int tickdelay = delay * 20;
         this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, new Announcement(this.flow), tickdelay, tickdelay);
+        this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, this.ircAnnouncement, 6000, 1200);
     }
 
-    public void modJoinCount(int modification) {
-        this.joinCount += modification;
+    public void join() {
+        this.joinCount++;
+        this.ircAnnouncement.join();
     }
 
-    public void modQuitCount(int modification) {
-        this.quitCount += modification;
+    public void quit() {
+        this.quitCount++;
+        this.ircAnnouncement.quit();
     }
 
     private boolean boring() {
