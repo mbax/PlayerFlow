@@ -65,7 +65,7 @@ public class FlowHandler {
 
         @Override
         public void run() {
-            final String message = FlowHandler.this.flow.getMessage().replace("%j", Integer.toString(this.joins)).replace("%q", Integer.toString(this.quits));
+            final String message = FlowHandler.this.flow.getMessage().replace("%j", Integer.toString(this.joins)).replace("%q", Integer.toString(this.quits)).replace("%o", Integer.toString(flow.getServer().getOnlinePlayers().length));
             if (!FlowHandler.this.flow.getServer().getPluginManager().isPluginEnabled("MonsterIRC")) {
                 return;
             }
@@ -121,7 +121,7 @@ public class FlowHandler {
         this.delay = delayBuilder.toString();
         final int tickdelay = delay * 20;
         this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, new Announcement(this.flow), tickdelay, tickdelay);
-        this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, this.ircAnnouncement, 6000, 1200);
+        this.flow.getServer().getScheduler().scheduleSyncRepeatingTask(flow, this.ircAnnouncement, 1200, 6000);
     }
 
     public void join() {
