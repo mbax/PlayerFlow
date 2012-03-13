@@ -1,3 +1,31 @@
-summaryDelaySeconds: 60
-announceNoChange: false
-logSummaries: false
+#
+#
+#  PlayerFlow
+#
+#   Simplify your join and quit messages
+#
+# Each flow has four settings:
+#  log: Should the message be logged? true/false
+#  message: What to send
+#           Replacements:
+#             && becomes the color code, so &&c is red
+#             %
+#             %
+#             %
+#  onlyUpdated: Should the message only be sent if people joined/quit? true/false
+#  period: How many seconds between messages
+#
+#  Permission nodes for flows are:
+#    playerflow.receive.flowname
+#    such as playerflow.receive.secondflowexample
+#
+flowexample:
+  message: &&c%join% have joined and %quit% quit in the last minute
+  log: true
+  onlyUpdated: true
+  period: 60
+secondflowexample:
+  message: &&cThere are %online% players online
+  log: false
+  onlyUpdated: false
+  period: 60  

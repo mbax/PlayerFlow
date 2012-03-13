@@ -1,12 +1,10 @@
 name: PlayerFlow
 main: org.kitteh.playerflow.PlayerFlowPlugin
-version: 2.0
+version: 3.0
 website: http://kitteh.org
 author: mbaxter
 description: Replacement for pesky player joined/quit messages
 permissions:
-  playerflow.receivesummary:
-    description: Receive join and quit summaries
   playerflow.receiveperuser:
     description: Receive the usual message every time a player joins or quits
   playerflow.silent:

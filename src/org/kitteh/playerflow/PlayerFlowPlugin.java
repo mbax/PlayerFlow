@@ -1,37 +1,82 @@
 package org.kitteh.playerflow;
 
-import org.bukkit.ChatColor;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PlayerFlowPlugin extends JavaPlugin {
+public class PlayerFlowPlugin extends JavaPlugin implements Listener {
 
-    private FlowHandler handler;
+    private HashSet<Flow> flows;
 
-    public FlowHandler getHandler() {
-        return this.handler;
-    }
-
-    public void log(String message) {
-        this.getServer().getLogger().info("[PlayerFlow] " + ChatColor.stripColor(message));
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void join(PlayerJoinEvent event) {
+        this.getServer().broadcast(event.getJoinMessage(), "playerflow.receiveperuser");
+        event.setJoinMessage(null);
+        if (event.getPlayer().hasPermission("playerflow.silent")) {
+            return;
+        }
+        if (event.getPlayer().hasPermission("")) {
+            final int online = this.getServer().getOnlinePlayers().length;
+            for (final Flow flow : this.flows) {
+                flow.join(online);
+            }
+        }
     }
 
     @Override
     public void onDisable() {
         this.getServer().getScheduler().cancelTasks(this);
-        this.log("Version " + this.getDescription().getVersion() + " disabled.");
+        this.getLogger().info("v" + this.getDescription().getVersion() + " disabled.");
     }
 
     @Override
     public void onEnable() {
-        this.getConfig().options().copyDefaults(true);
+        this.flows = new HashSet<Flow>();
 
-        this.handler = new FlowHandler(this, this.getConfig().getInt("summaryDelaySeconds", 60), this.getConfig().getBoolean("announceNoChange", false), this.getConfig().getBoolean("logSummaries", false));
+        this.saveDefaultConfig();
+        final FileConfiguration config = this.getConfig();
+        final Set<String> keys = config.getKeys(false);
+        final int online = this.getServer().getOnlinePlayers().length;
+        for (final String key : keys) {
+            final ConfigurationSection section = config.getConfigurationSection(key);
+            final boolean onlyUpdated = section.getBoolean("onlyUpdated", false);
+            final boolean log = section.getBoolean("log", true);
+            final String message = section.getString("message");
+            if (message == null) {
+                continue;
+            }
+            final int period = section.getInt("period", 60) * 20;//in ticks
+            final Flow flow = new Flow(key, onlyUpdated, log, online, message);
+            this.getServer().getScheduler().scheduleSyncRepeatingTask(this, flow, period, period);
+            this.flows.add(flow);
+        }
 
-        this.saveConfig();
+        this.getServer().getPluginManager().registerEvents(this, this);
 
-        this.getServer().getPluginManager().registerEvents(new FlowPlayerListener(this), this);
+        this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");
+    }
 
-        this.log("Version " + this.getDescription().getVersion() + " enabled.");
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void quit(PlayerQuitEvent event) {
+        this.getServer().broadcast(event.getQuitMessage(), "playerflow.receiveperuser");
+        event.setQuitMessage(null);
+        if (event.getPlayer().hasPermission("playerflow.silent")) {
+            return;
+        }
+        if (event.getPlayer().hasPermission("")) {
+            final int online = this.getServer().getOnlinePlayers().length;
+            for (final Flow flow : this.flows) {
+                flow.quit(online);
+            }
+        }
     }
 
 }
