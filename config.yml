@@ -9,9 +9,9 @@
 #  message: What to send
 #           Replacements:
 #             && becomes the color code, so &&c is red
-#             %
-#             %
-#             %
+#             %join% becomes the number who joined in that period
+#             %quit% becomes the number who quit in that period
+#             %online% becomes the number of currently online players
 #  onlyUpdated: Should the message only be sent if people joined/quit? true/false
 #  period: How many seconds between messages
 #
