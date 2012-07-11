@@ -13,8 +13,8 @@ public class Flow implements Runnable {
     private final String message;
     private final String permission;
 
-    public Flow(String name, boolean onlyUpdated, boolean log, int online, String message) {
-        this.permission = "playerflow.receive." + name;
+    public Flow(String permission, boolean onlyUpdated, boolean log, int online, String message) {
+        this.permission = permission;
         this.onlyUpdated = onlyUpdated;
         this.log = log;
         this.online = online;

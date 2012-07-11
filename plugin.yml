@@ -1,11 +1,19 @@
 name: PlayerFlow
 main: org.kitteh.playerflow.PlayerFlowPlugin
-version: 3.0
+version: '${project.version}'
 website: http://kitteh.org
 author: mbaxter
 description: Replacement for pesky player joined/quit messages
+commands:
+  playerflow:
+    description: Reset and reload flows from config
+    usage: /playerflow
+    permission: playerflow.reload
+    permission-message: Sorry, you do not have permission.
 permissions:
   playerflow.receiveperuser:
     description: Receive the usual message every time a player joins or quits
+  playerflow.reload:
+    description: Able to reload flows
   playerflow.silent:
     description: Does not show up in any alerts or statistics

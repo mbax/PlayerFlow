@@ -19,6 +19,9 @@
 #    playerflow.receive.flowname
 #    such as playerflow.receive.secondflowexample
 #
+#  Only a flow named op, will be given to ops.
+#  All other flows will be default false
+#
 flowexample:
   message: &&c%join% have joined and %quit% quit in the last minute
   log: true
