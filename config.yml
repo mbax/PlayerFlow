@@ -23,12 +23,12 @@
 #  All other flows will be default false
 #
 flowexample:
-  message: &&c%join% have joined and %quit% quit in the last minute
+  message: "&&c%join% have joined and %quit% quit in the last minute"
   log: true
   onlyUpdated: true
   period: 60
 secondflowexample:
-  message: &&cThere are %online% players online
+  message: "&&cThere are %online% players online"
   log: false
   onlyUpdated: false
   period: 60  
