@@ -13,7 +13,9 @@ commands:
 permissions:
   playerflow.receiveperuser:
     description: Receive the usual message every time a player joins or quits
+    default: false
   playerflow.reload:
     description: Able to reload flows
   playerflow.silent:
     description: Does not show up in any alerts or statistics
+    default: false
