@@ -83,11 +83,9 @@ public class PlayerFlowPlugin extends JavaPlugin implements Listener {
         if (event.getPlayer().hasPermission("playerflow.silent")) {
             return;
         }
-        if (event.getPlayer().hasPermission("")) {
-            final int online = this.getServer().getOnlinePlayers().length;
-            for (final Flow flow : this.flows) {
-                flow.join(online);
-            }
+        final int online = this.getServer().getOnlinePlayers().length;
+        for (final Flow flow : this.flows) {
+            flow.join(online);
         }
     }
 
