@@ -4,7 +4,7 @@
   <groupId>org.kitteh</groupId>
   <artifactId>PlayerFlow</artifactId>
   <packaging>jar</packaging>
-  <version>3.2</version>
+  <version>3.3</version>
   <name>PlayerFlow</name>
   <url>http://www.github.com/mbax/PlayerFlow</url>
   <properties>
