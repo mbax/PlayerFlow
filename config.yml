@@ -31,4 +31,4 @@ secondflowexample:
   message: "&&cThere are %online% players online"
   log: false
   onlyUpdated: false
-  period: 60  
+  period: 60

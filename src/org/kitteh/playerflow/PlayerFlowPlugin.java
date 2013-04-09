@@ -43,7 +43,10 @@ public class PlayerFlowPlugin extends JavaPlugin implements Listener {
                 opNode = true;
             }
             String permission = "playerflow.receive." + key;
-            this.getServer().getPluginManager().addPermission(new Permission(permission, opNode ? PermissionDefault.OP : PermissionDefault.FALSE));
+            try {
+                this.getServer().getPluginManager().addPermission(new Permission(permission, opNode ? PermissionDefault.OP : PermissionDefault.FALSE));
+            } catch (IllegalArgumentException alreadyDefinedOrSomething) {
+            }
             final Flow flow = new Flow(permission, onlyUpdated, log, online, message);
             this.getServer().getScheduler().scheduleSyncRepeatingTask(this, flow, period, period);
             this.flows.add(flow);
